@@ -14,7 +14,7 @@ This workbook provides filtered view of Azure Activity Logs and is divided to se
 -	**Account:** filtered View of Activity Log events related to Azure resource role changes  
 -	**Application:** filtered View of Activity Log events related to App Service changes 
 
-
+Please refer to this blog for more details- https://itsec365.wordpress.com/2022/08/02/reviewing-azure-activity-logs/
 
 ## Try it on the Azure Portal
 
