@@ -23,8 +23,9 @@ During the deployment, you must select a subscription and resource group to stor
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FWAFSecurityAssessment%2FarmTemplate.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
 <a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FWAFSecurityAssessment%2FarmTemplate.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
+### Demo
 ![Dashboard demo](./wafsa.GIF)
 
-### Upcoming changes
+#### Upcoming changes
 
 * DevOps and API realted recommendations will be added in future.
