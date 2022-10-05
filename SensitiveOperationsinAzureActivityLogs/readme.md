@@ -13,6 +13,7 @@ This workbook provides filtered view of Azure Activity Logs and is divided to se
 -	**Data:** filtered View of Activity Log events related to Azure SQL changes, storage account changes, Key Vault changes 
 -	**Account:** filtered View of Activity Log events related to Azure resource role changes  
 -	**Application:** filtered View of Activity Log events related to App Service changes, Function App, Logic App, Automation Account Webhooks 
+-	**External Access:** filtered View of Activity Log events related to Light House Registration Assignments, Guest Account activities 
 
 Please refer to this blog for more details- https://itsec365.wordpress.com/2022/08/02/reviewing-azure-activity-logs/
 
@@ -21,8 +22,8 @@ Please refer to this blog for more details- https://itsec365.wordpress.com/2022/
 To deploy the new workbook into your Microsoft Defender for Cloud console, click on *Deploy to Azure* for Azure Public cloud or *Deploy to Azure Gov* for government cloud.
 During the deployment, you must select a subscription and resource group to store the workbook. 
 
-<a  href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FSensitiveOperationsinAzureActivityLogs%2FSensitiveOperationsAzureActivity.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FSensitiveOperationsinAzureActivityLogs%2FSensitiveOperationsAzureActivity.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
+<a  href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FSensitiveOperationsinAzureActivityLogs%2FAzureActivityLogReview.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FSensitiveOperationsinAzureActivityLogs%2FAzureActivityLogReview.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
 ![Workbook demo](./Activity.GIF)
@@ -33,3 +34,4 @@ During the deployment, you must select a subscription and resource group to stor
 |---|---|
 |Aug-2-22| Public availability of the workbook| 
 |Aug-26-22| Added AKS, Function Apps,LogicApps,Webhooks and Webjobs per Azure Threat Research Matrix detections  | 
+|Oct-4-22| Added External Access  | 
