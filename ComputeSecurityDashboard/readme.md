@@ -24,6 +24,13 @@ During the deployment, you must select a subscription and resource group to stor
 ### Demo
 ![Dashboard demo](./compsec.GIF)
 
+#### Change Log 
+
+|Date|Description|
+|---|---|
+|April-21-22| Public availability of the workbook| 
+|Nov-2-22| Updated Azure Security Benchmark to Microsoft cloud security benchmark  | 
+
 ### Upcoming changes
 
 * Identification of VMs shut down for more than 30 days, AWS EC2 Security center recommendations will be added in future.
