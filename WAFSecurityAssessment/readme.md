@@ -29,3 +29,11 @@ During the deployment, you must select a subscription and resource group to stor
 #### Upcoming changes
 
 * DevOps and API realted recommendations will be added in future.
+
+#### Change Log 
+
+|Date|Description|
+|---|---|
+|May-10-22| Public availability of the workbook| 
+|Nov-1-22| Updated Azure Security Benchmark to Microsoft cloud security benchmark in the workbook code  | 
+ 
