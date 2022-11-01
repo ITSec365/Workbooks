@@ -29,7 +29,7 @@ During the deployment, you must select a subscription and resource group to stor
 |Date|Description|
 |---|---|
 |April-21-22| Public availability of the workbook| 
-|Nov-2-22| Updated Azure Security Benchmark to Microsoft cloud security benchmark  | 
+|Nov-2-22| Updated Orphaned Resources  | 
 
 ### Upcoming changes
 
