@@ -6,12 +6,12 @@ This workbook provides filtered view of Azure Resources and Network configuratio
 
 -	**PaaS Services:**  filtered view listing various PaaS Services (Storage Account, Key vault, Event Hub, App Services, Databases) with Public Access Property status     
 -	**Network Rules:** filtered View listing Public IPs with assignment status, Network rules configured in various network services like Application Gateway, Front Door, Firewall etc. 
--	**Network Services: ** filtered View listing Network services like Bastion Hosts, VNet Gateways, VPN Gateways etc.   
--	**API Connections: ** filtered View listing API Connections and Logic App Workflows
--	**Internal Networks: ** filtered View listing VNet configurations, Route tables, NSG Rules  
--	**MDC Recommendations: ** filtered View listing Public Access related recommendations for VM, PaaS services and Data in transit security recommendations
+-	**Network Services:** filtered View listing Network services like Bastion Hosts, VNet Gateways, VPN Gateways etc.   
+-	**API Connections:** filtered View listing API Connections and Logic App Workflows
+-	**Internal Networks:** filtered View listing VNet configurations, Route tables, NSG Rules  
+-	**MDC Recommendations:** filtered View listing Public Access related recommendations for VM, PaaS services and Data in transit security recommendations
 
-Please refer to this blog for more details- 
+Please refer to this blog for more details- https://itsec365.wordpress.com/2023/03/03/azure-public-endpoints-review/
 
 ## Try it on the Azure Portal
 
