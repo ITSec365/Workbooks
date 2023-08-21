@@ -7,7 +7,7 @@ Our newly dashboard is based on Azure Resource Graph (ARG) queries and divided t
 -	**Virtual Machine Inventory:** summary view of all your Azure virtual machine and Arc resources for selected subscription(s) with OS, size, powerstate, SKU details 
 -	**Orphaned Assets:** Orphaned VM components like Disks, NICs, Availability Sets, Public IPs, NSGs (not attached to any VMs) 
 -	**Virtual Machine Status:** VMs not having Managed Disks, VMs with pending reboot status, VMs shut down with their compliance status, List of extension in VMs and Azure Arc Servers 
--	**Security Center recommendations:** filtered view of all Microsoft Defender for Cloud compute related recommendations including resource count, severity, and security control. **System Updates:** VMs missing system updates and filtered view of missing update details for selected VM , **System Baseline:** VMs missing security baseline configurations and filtered view of missing configuration details for selected VM
+-	**Security Center recommendations:** filtered view of all Microsoft Defender for Cloud compute related recommendations including resource count, severity, and security control. **System Updates:** VMs missing system updates and filtered view of missing update details for selected VM 
 -	**Service Principal:** List of Service Principals, Resources with System Assigned Identity , Resources with User Assigned Identity
 -	**Backup:** VMs missing backup configurations and filtered view of back up jobs and backup alert details for selected subscription
 -	**Encryption:** VMs not having managed disks and filtered view of disk encryption status
