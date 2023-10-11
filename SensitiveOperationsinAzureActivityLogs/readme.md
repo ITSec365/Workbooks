@@ -36,3 +36,4 @@ During the deployment, you must select a subscription and resource group to stor
 |Aug-26-22| Added AKS, Function Apps,LogicApps,Webhooks and Webjobs per Azure Threat Research Matrix detections  | 
 |Oct-4-22| Added External Access  | 
 |Nov-11-22| Updated Caller Activities section  | 
+|Oct-11-23| Updated Compute section with Serial Console and Snapshot export activities  | 
