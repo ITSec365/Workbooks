@@ -38,6 +38,7 @@ During the deployment, you must select a subscription and resource group to stor
 |June-6-2023| Added Azure Arc inventory, Service Principals and backup details  | 
 |July-31-2023| Added Encryption, Resource Changes and Subscription RBAC  |
 |October-11-2023| Added Network section  |
+
 ### Upcoming changes
 
 
