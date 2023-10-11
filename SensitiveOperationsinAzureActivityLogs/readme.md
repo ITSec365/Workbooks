@@ -6,7 +6,7 @@
 This workbook provides filtered view of Azure Activity Logs and is divided to several sections such as:
 
 -	**Overall:**  filtered view of administrative activities performed by various callers   
--	**Compute:** filtered View of Activity Log events related to VM Extension Changes, VM Run commands and VM Local adminpassword reset, VM Public IP assignments, AKS Run commands 
+-	**Compute:** filtered View of Activity Log events related to VM Extension Changes, VM Run commands and VM Local adminpassword reset, VM, Disk SAS URI export, Serial Console Access, Snapshot activities, VM Public IP assignments, AKS Run commands 
 -	**Network:** filtered View of Activity Log events related to NSG Rule changes, Azure DNS changes, Network port changes  
 -	**Policy:** filtered View of Activity Log events related to Policy changes, Resource lock changes, deployments denied by Azure Policy and deployments performed by Azure Policy 
 -	**Security:** filtered View of Activity Log events related to Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes, 
