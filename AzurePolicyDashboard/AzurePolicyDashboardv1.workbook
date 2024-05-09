@@ -1,0 +1,391 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "# Azure Policy Dashboard Workbook"
+      },
+      "name": "text - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{subscription}"
+        ],
+        "parameters": [
+          {
+            "id": "4248eddc-aa60-4e9f-b584-c396ecd89670",
+            "version": "KqlParameterItem/1.0",
+            "name": "subscription",
+            "type": 6,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": "/subscriptions/fe99e5c3-91b3-4c4b-9dbe-1426393d5d50"
+          },
+          {
+            "id": "1277ae8b-9bb2-4f5b-b2c1-f75f1e5b0d6c",
+            "version": "KqlParameterItem/1.0",
+            "name": "LAWorkspace",
+            "type": 5,
+            "description": "Select Log Analytics Workspace with Azure Activity Logs ingested",
+            "isRequired": true,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'\r\n| project id",
+            "crossComponentResources": [
+              "{subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "/subscriptions/fe99e5c3-91b3-4c4b-9dbe-1426393d5d50/resourceGroups/SentinelRG/providers/Microsoft.OperationalInsights/workspaces/SentielLab"
+          },
+          {
+            "id": "e13ff2a6-c0d3-4881-9d05-b3d65b914a50",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 604800000
+                }
+              ],
+              "allowCustom": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 604800000
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters - 1"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "80f7b777-bb06-4925-93e0-7055385283f8",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Policy Coverage",
+            "subTarget": "coverage",
+            "style": "link"
+          },
+          {
+            "id": "be546024-e317-4e6d-ac8b-e2274ead102c",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Policy Status",
+            "subTarget": "status",
+            "preText": "wbtab",
+            "style": "link"
+          },
+          {
+            "id": "875f136e-0c6a-41ba-aaaf-00f15a0d3466",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Policy Exemptions",
+            "subTarget": "exception",
+            "style": "link"
+          },
+          {
+            "id": "0607f953-2225-4a94-80f1-1f53dcf4e045",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Policy Actions",
+            "subTarget": "action",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "policyresources\r\n| where type =~ 'microsoft.authorization/policyassignments'\r\n| extend [\"Display Name\"] = tostring(properties.displayName)\r\n| extend Prop = parse_json(properties)\r\n| extend [\"Assigned By\"] = tostring(properties.metadata.assignedBy)\r\n//| where [\"Assigned By\"] == \"Security Center\"\r\n| project id, [\"Display Name\"], [\"Assigned By\"], [\"Subscription\"]=subscriptionId, Scope=properties.scope, PolicyDefinitionID= properties.policyDefinitionId, PolicyVersion=properties.definitionVersion",
+        "size": 0,
+        "title": "Polcies Assigned at Tenant Level",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "custom policies - Copy"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "securityresources\r\n        | where type == \"microsoft.security/assessments\"\r\n        | extend source = tostring(properties.resourceDetails.Source)\r\n        | extend resourceId =\r\n            trim(\" \", tolower(tostring(case(source =~ \"azure\", properties.resourceDetails.Id,\r\n                                            source =~ \"aws\", properties.resourceDetails.AzureResourceId,\r\n                                            source =~ \"gcp\", properties.resourceDetails.AzureResourceId,\r\n                                           extract(\"^(.+)/providers/Microsoft.Security/assessments/.+$\",1,id)))))\r\n        | extend status = trim(\" \", tostring(properties.status.code))\r\n        | extend cause = trim(\" \", tostring(properties.status.cause))\r\n        | mv-expand policy=properties.statusPerInitiative\r\n        | extend policyInitiativeName = policy.policyInitiativeName\r\n        | extend policyAssessmentStatusCode = policy.assessmentStatus.code\r\n        | extend assessmentKey = tostring(name)\r\n        | where cause == \"Exempt\" or cause == \"OffByPolicy\"\r\n        | extend ResourceName = tostring(split(resourceId,'/')[8]), RecommendationName = tostring(properties.displayName), Source = properties.resourceDetails.Source, StatusCause = tostring(properties.status.cause), StatusDescription = properties.status.description, RecommendationSeverity = tostring(properties.metadata.severity)\r\n        | project subscriptionId, RecommendationName, RecommendationSeverity, ResourceName, StatusCause, StatusDescription, policyInitiativeName, policyAssessmentStatusCode, resourceGroup, Source\r\n        | distinct subscriptionId, RecommendationName, RecommendationSeverity, StatusCause, tostring(StatusDescription), tostring(policyInitiativeName), tostring(policyAssessmentStatusCode), tostring(Source), ResourceName, resourceGroup\r\n        | sort by RecommendationSeverity, RecommendationName",
+        "size": 0,
+        "title": "Overall Policy Exemption Status",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ],
+        "gridSettings": {
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "StatusCause",
+              "RecommendationName"
+            ]
+          }
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "exception"
+      },
+      "name": "exemptions"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "let opValues = dynamic([\"Microsoft.Authorization/policyAssignments/delete\", \"Microsoft.Authorization/policyAssignments/write\", \"Microsoft.Authorization/policyDefinitions/delete\"]);\r\n// Azure Policy Update / Delete\r\nAzureActivity\r\n| where OperationNameValue in~ (opValues)\r\n| where ActivitySubstatusValue in (\"Created\", \"OK\")\r\n| sort by TimeGenerated desc\r\n| project TimeGenerated, OperationName, OperationNameValue, ActivityStatus, Caller, CallerIpAddress, ResourceId, ResourceGroup, SubscriptionId",
+        "size": 0,
+        "title": "Azure Policy Changes",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{LAWorkspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "action"
+      },
+      "name": "action"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureActivity\r\n| where OperationNameValue == \"Microsoft.Authorization/policies/deny/action\"\r\n| where ActivityStatusValue == \"Failed\"\r\n| extend Policydetail = tolower(tostring(todynamic(Properties).['policies']))\r\n| extend PolicyAssignmentName = tolower(tostring(todynamic(Policydetail)[0].['policyassignmentdisplayname']))\r\n| extend PolicyDefinitionName = tolower(tostring(todynamic(Policydetail)[0].['policydefinitiondisplayname']))\r\n| extend AssignementID = tolower(tostring(todynamic(Policydetail)[0].['policyassignmentid']))\r\n| project TimeGenerated, Caller, ActivityStatusValue, ResourceGroup, ResourceProviderValue,  Resource,  _ResourceId, _SubscriptionId, PolicyAssignmentName, PolicyDefinitionName, AssignementID",
+        "size": 0,
+        "title": "Resource Deployments denied by Azure Policy",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{LAWorkspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "action"
+      },
+      "name": "action - Copy"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureActivity\r\n| where OperationNameValue == \"Microsoft.Authorization/policies/deployIfNotExists/action\"\r\n| extend Pupdated = tolower(tostring(todynamic(Properties).['updatedResources']))\r\n| where Pupdated != \"[]\" and Pupdated != \"\"\r\n| extend Policydetail = tolower(tostring(todynamic(Properties).['policies']))\r\n| extend PolicyName = tolower(tostring(todynamic(Policydetail)[0].['policyassignmentdisplayname']))\r\n| extend PolicyDefinitionName = tolower(tostring(todynamic(Policydetail)[0].['policydefinitiondisplayname']))\r\n| extend AssignementID = tolower(tostring(todynamic(Policydetail)[0].['policyassignmentid']))\r\n| project Resource, ResourceGroup, _ResourceId, SubscriptionId, Caller, PolicyName, PolicyDefinitionName, AssignementID, UpdatedObject=Pupdated ",
+        "size": 0,
+        "title": "Resource Deployments performed by Azure Policy",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{LAWorkspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "action"
+      },
+      "name": "query - 6"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "Policy Definitions and Assignements Table Mapping provides the Policy definitions assigned to respective assignments. Review where the Assignment ID is blank/null which shows that those Policies are not yet assigned at any scope and could be assigned as needed in your environment.",
+        "style": "warning"
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "text - 13"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "   policyResources\r\n    | where type =~'Microsoft.Authorization/PolicySetDefinitions' or type =~'Microsoft.Authorization/PolicyDefinitions'\r\n    | project definitionId = tolower(id), category = tostring(properties.metadata.category), definitionType = iff(type =~ 'Microsoft.Authorization/PolicysetDefinitions', 'initiative', 'policy')\r\n    | join kind=  leftouter(\r\n     policyResources\r\n     | where type =~'Microsoft.Authorization/PolicyAssignments'\r\n    | project policyAssignmentId = tolower(tostring(id)), policyAssignmentDisplayName = tostring(properties.displayName), policyAssignmentDefinitionId = tolower(properties.policyDefinitionId), policyDescription = tostring(properties.description), properties.scope\r\n    ) on $left.definitionId == $right.policyAssignmentDefinitionId",
+        "size": 0,
+        "title": "Policy Definitions and Assignments Mapping",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ],
+        "gridSettings": {
+          "filter": true
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "Policies Not Assigned"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "policyResources\r\n    | where type =~'Microsoft.Authorization/PolicySetDefinitions' or type =~'Microsoft.Authorization/PolicyDefinitions'\r\n    | extend PolicyType= tostring(properties.policyType)\r\n    | where PolicyType == \"custom\"\r\n    | project definitionId = tolower(id), category = tostring(properties.metadata.category), definitionType = iff(type =~ 'Microsoft.Authorization/PolicysetDefinitions', 'initiative', 'policy'), displayname= tostring(properties.displayName)\r\n    ",
+        "size": 0,
+        "title": "List of Custom Policy Defintions",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "custom policy definitions"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "securityresources| where type == \"microsoft.security/assessments\" \r\n// Get recommendations in useful format\r\n| where properties.metadata.assessmentType !has \"BuiltIn\" \r\n| project ['TenantID'] = tenantId, ['subscriptionId'] = tostring(subscriptionId),\r\n['AssessmentID'] = name, ['DisplayName'] = properties.displayName, \r\n['ResourceType'] = tolower(split(properties.resourceDetails.Id,\"/\").[7]),\r\n ['ResourceName'] = tolower(split(properties.resourceDetails.Id,\"/\").[8]), \r\n['ResourceGroup'] = resourceGroup, \r\n['ContainsNestedRecom'] = tostring(properties.additionalData.subAssessmentsLink), \r\n['StatusCode'] = properties.status.code, ['StatusDescription'] = properties.status.description, \r\n['PolicyDefID'] = properties.metadata.policyDefinitionId, \r\n['Description'] = properties.metadata.description, \r\n['RecomType'] = properties.metadata.assessmentType, \r\n['Remediation'] = properties.metadata.remediationDescription, \r\n['Severity'] = properties.metadata.severity, \r\n['Link'] = properties.links.azurePortal, \r\n['Initiative'] = properties.statusPerInitiative.policyInitiativeName,\r\n['Type'] = properties.metadata.assessmentType  \r\n| extend Link = strcat(\"https://\",Link)\r\n| extend PolicyDef = strcat(\"https://portal.azure.com/#blade/Microsoft_Azure_Policy/PolicyDetailBlade/definitionId/\",url_encode_component(tostring(PolicyDefID)))\r\n| distinct TenantID, subscriptionId, AssessmentID, tostring(DisplayName),tostring(PolicyDefID), tostring(Description), tostring(PolicyDef)",
+        "size": 0,
+        "title": "List of Custom Policy Assignments",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "custom policy assignments"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "policyresources //| where tolower(properties.policyAssignmentName) != 'securitycenterbuiltIn'\r\n| extend complianceState=tostring(properties['complianceState']), resourceId=tostring(properties['resourceId'])\r\n| project subscriptionId, complianceState, resourceId\r\n| summarize complianceStates=make_list(complianceState) by subscriptionId, resourceId\r\n| summarize TotalPolicies = count()\r\n  , Compliant = countif((complianceStates notcontains 'NonCompliant') and (complianceStates contains 'Compliant'))\r\n  , Exempt = countif((complianceStates notcontains 'NonCompliant') and (complianceStates notcontains 'Compliant') and (complianceStates contains 'Exempt'))\r\n  , NonCompliant = countif (complianceStates contains 'NonCompliant') by subscriptionId\r\n| extend OverallCompliancePerc = round(toreal(Compliant + Exempt) / toreal(TotalPolicies), 2)*100\r\n| project subscriptionId, TotalPolicies, Compliant, Exempt, NonCompliant, OverallCompliancePerc\r\n| order by OverallCompliancePerc desc ",
+        "size": 0,
+        "title": "Overall Compliance at selected subscription level",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{subscription}"
+        ],
+        "gridSettings": {
+          "filter": true
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "coverage"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "policyresources \r\n| project   subscriptionId, \r\npolicyDefinitionReferenceId = properties['policyDefinitionReferenceId'], \r\n//policyDisplayName = properties['displayName'], \r\npolicySetDefinitionCategory = properties['policySetDefinitionCategory'],policyEffect= properties['policyDefinitionAction'] ,\r\npolicyComplianceState= properties['complianceState'], \r\nAffectedresourceId = properties['resourceId'], \r\nresourceGroup, \r\nresourceType = properties['resourceType']\r\n",
+        "size": 0,
+        "title": "Policy Compliance Status ",
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resources/tenants",
+        "crossComponentResources": [
+          "value::tenant"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "policyDefinitionReferenceId",
+              "formatter": 7
+            }
+          ],
+          "filter": true,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "policyDefinitionReferenceId",
+              "policyComplianceState"
+            ]
+          }
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "status"
+      },
+      "name": "coverage - Copy - Copy"
+    }
+  ],
+  "fallbackResourceIds": [
+    "azure monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
