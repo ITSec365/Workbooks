@@ -11,7 +11,7 @@ This workbook provides filtered view of Azure Activity Logs and is divided to se
 -	**Policy:** filtered View of Activity Log events related to Policy changes, Resource lock changes, deployments denied by Azure Policy and deployments performed by Azure Policy 
 -	**Security:** filtered View of Activity Log events related to Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes, 
 -	**Data:** filtered View of Activity Log events related to Azure SQL changes, storage account changes, Key Vault changes 
--	**Account:** filtered View of Activity Log events related to Azure resource role changes  
+-	**Subscription:** filtered View of Activity Log events related to Azure resource role changes, Coverage of Azure Activity Logs, Cloud Shell Activities  
 -	**Application:** filtered View of Activity Log events related to App Service changes, Function App, Logic App, Automation Account Webhooks 
 -	**External Access:** filtered View of Activity Log events related to Light House Registration Assignments, Guest Account activities 
 
@@ -37,3 +37,4 @@ During the deployment, you must select a subscription and resource group to stor
 |Oct-4-22| Added External Access  | 
 |Nov-11-22| Updated Caller Activities section  | 
 |Oct-11-23| Updated Compute section with Serial Console and Snapshot export activities  | 
+|July-11-24| Updated Subscription (old Account) section with coverage and cloud shell activities  | 
