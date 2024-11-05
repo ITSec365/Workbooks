@@ -1,4 +1,4 @@
-#Graph Activity Log Hunting
+# Graph Activity Log Hunting Workbook
 
 Graph Activity Log Hunting workbook assists in identifying sensitive operations using Grpah API Activity Logs. 
 
