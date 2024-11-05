@@ -1,0 +1,563 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Sensitive Operations in Entra ID (Azure AD) Audit Logs"
+      },
+      "name": "text - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "08fd2b41-1c04-4d82-8178-5424d1d7abff",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "description": "Select Subscription where LA Workspace is avalable",
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": null
+          },
+          {
+            "id": "a6f0903e-5a96-47be-baaf-596153446e11",
+            "version": "KqlParameterItem/1.0",
+            "name": "Workspace",
+            "type": 5,
+            "description": "Select Workspace where Azure AD Audit Logs are available",
+            "isRequired": true,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'\r\n| project id",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": []
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "/subscriptions/fe99e5c3-91b3-4c4b-9dbe-1426393d5d50/resourceGroups/SentinelRG/providers/Microsoft.OperationalInsights/workspaces/SentielLab"
+          },
+          {
+            "id": "4dd5b3ae-f91b-48e2-b206-ffba56c9bac6",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 604800000
+                }
+              ],
+              "allowCustom": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 604800000
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters - 1"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "This Workbook utilizes Entra ID (Azure AD) Audit Logs as a data source and it can be used to monitor sensitive operations from security aspects. Suspecious activities in Azure Resources can be detected by reviewing who performed it and from which IP.This workbook leverages detection methods provided in One Page Guide provided by Microsoft Incident response team. Link: https://www.microsoft.com/en-us/security/blog/2024/01/17/new-microsoft-incident-response-guides-help-security-teams-analyze-suspicious-activity/"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "<svg viewBox=\"0 0 19 19\" width=\"20\" class=\"fxt-escapeShadow\" role=\"presentation\" focusable=\"false\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\"><g><path fill=\"#1b93eb\" d=\"M16.82 8.886c0 4.81-5.752 8.574-7.006 9.411a.477.477 0 01-.523 0C8.036 17.565 2.18 13.7 2.18 8.886V3.135a.451.451 0 01.42-.419C7.2 2.612 6.154.625 9.5.625s2.3 1.987 6.8 2.091a.479.479 0 01.523.419z\"></path><path fill=\"url(#0024423711759027356)\" d=\"M16.192 8.99c0 4.392-5.333 7.947-6.483 8.575a.319.319 0 01-.418 0c-1.15-.732-6.483-4.183-6.483-8.575V3.762a.575.575 0 01.313-.523C7.2 3.135 6.258 1.357 9.4 1.357s2.2 1.882 6.274 1.882a.45.45 0 01.419.418z\"></path><path d=\"M9.219 5.378a.313.313 0 01.562 0l.875 1.772a.314.314 0 00.236.172l1.957.284a.314.314 0 01.174.535l-1.416 1.38a.312.312 0 00-.09.278l.334 1.949a.313.313 0 01-.455.33l-1.75-.92a.314.314 0 00-.292 0l-1.75.92a.313.313 0 01-.455-.33L7.483 9.8a.312.312 0 00-.09-.278L5.977 8.141a.314.314 0 01.174-.535l1.957-.284a.314.314 0 00.236-.172z\" class=\"msportalfx-svg-c01\"></path></g></svg>&nbsp;<span style=\"font-family: Open Sans; font-weight: 620; font-size: 14px;font-style: bold;margin:-10px 0px 0px 0px;position: relative;top:-3px;left:-4px;\"> Please take time to answer a quick survey,\r\n</span>[<span style=\"font-family: Open Sans; font-weight: 620; font-size: 14px;font-style: bold;margin:-10px 0px 0px 0px;position: relative;top:-3px;left:-4px;\"> click here. </span>](https://forms.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR6WFGSmpLgBFs8JcO3-8uANUOUpaWlNYWEIxTTI0VldWVk40V0VBOFVIWS4u)"
+      },
+      "name": "text - 3"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "5e829bb8-4946-4d55-be8f-c3959faeaea8",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "User Activity",
+            "subTarget": "user",
+            "style": "link"
+          },
+          {
+            "id": "b466c1b2-a987-4579-a5ea-e8eeaebe965b",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Applications",
+            "subTarget": "application",
+            "style": "link"
+          },
+          {
+            "id": "b8932bd6-b238-4a64-a488-fb0e7a5c15f1",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Devices",
+            "subTarget": "device",
+            "style": "link"
+          },
+          {
+            "id": "7d616f6e-ab35-4400-8c6a-1a2e03ec8556",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Role ",
+            "subTarget": "role",
+            "style": "link"
+          },
+          {
+            "id": "c9f2a185-103d-472b-959c-775930038e80",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "CA policy",
+            "subTarget": "capolicy",
+            "style": "link"
+          },
+          {
+            "id": "92c20504-ec5c-4d9a-940e-a4a8e6a51df3",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "PIM",
+            "subTarget": "pim",
+            "style": "link"
+          },
+          {
+            "id": "20d65d99-3ca5-42e7-80c4-6a7cd8aa8185",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "identity",
+            "subTarget": "identity",
+            "style": "link"
+          },
+          {
+            "id": "1edd82f0-3aca-4721-81d3-425c4bea075a",
+            "cellValue": "wbtab",
+            "linkTarget": "parameter",
+            "linkLabel": "Guest users",
+            "subTarget": "guest",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 4"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where TimeGenerated > ago(1d)\r\n| where OperationName in (\"Update conditional access policy\", \"Add conditional access policy\", \"Delete conditional access policy\")\r\n| extend Actor = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n| extend ['Policy Name'] = tostring(TargetResources[0].displayName)\r\n| extend ['Policy Id'] = tostring(TargetResources[0].id)\r\n| project TimeGenerated, Actor, ['Policy Name'], ['Policy Id']",
+        "size": 0,
+        "title": "Conditional Access policy Changes",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "capolicy"
+      },
+      "name": "Conditional Access policy Changes"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName =~ \"Add member to role completed (PIM activation)\"\r\n| extend User = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n| extend ['Azure AD Role Name'] = tostring(TargetResources[0].displayName)\r\n| project TimeGenerated, User, ['Azure AD Role Name'], ['Activation Reason']=ResultReason",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "PIM Activation",
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "pim"
+      },
+      "name": "PIM Activation"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName in~ (\"Admin registered security info\", \"Admin updated security info\", \"Admin deleted security info\", \"User registered security info\", \"User changed default security info\", \"User deleted security info\")\r\n| extend UserPrincipalName = tostring(TargetResources[0].userPrincipalName)\r\n| project TimeGenerated, OperationName, UserPrincipalName",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "SecurityInfo Changes",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "user"
+      },
+      "name": "SecurityInfo Changes"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName in (\"Add verified domain\", \"Add unverified domain\")\r\n| extend Actor = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n| extend ['Actor IP Address'] = tostring(parse_json(tostring(InitiatedBy.user)).ipAddress)\r\n| extend Domain = tostring(TargetResources[0].displayName)\r\n| project TimeGenerated, OperationName, Actor, ['Actor IP Address'], Domain",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Add Domain",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "identity"
+      },
+      "name": "Add Domain"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName has \"Add member to role outside of PIM\"\r\n| extend RoleName = tostring(TargetResources[0].displayName)\r\n| extend UserAdded = tostring(TargetResources[2].displayName)\r\n| extend Actor = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n| project TimeGenerated, OperationName, RoleName, UserAdded, Actor",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Add member to role outside of PIM",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "pim"
+      },
+      "name": "Add member to role outside of PIM"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName =~ \"Add service principal\"\r\n| extend Actor = tostring(parse_json(tostring(InitiatedBy.app)).displayName)\r\n| extend ['Service Principal DisplayName'] = tostring(TargetResources[0].displayName)\r\n| extend ['Service Principal Id'] = tostring(TargetResources[0].id)\r\n| project TimeGenerated, ['Service Principal DisplayName'], ['Service Principal Id'], Actor",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Add Service Principal",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "application"
+      },
+      "name": "Add Service Principal"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SigninLogs\r\n| where ResultType == 500121\r\n| mv-expand todynamic(AuthenticationDetails)\r\n| extend AuthResultDetail=AuthenticationDetails.authenticationStepResultDetail\r\n| where AuthResultDetail =~ \"SuspiciousActivityReported\"\r\n| project TimeGenerated, UserPrincipalName, ResultType, AppDisplayName, AuthResultDetail, Location, IPAddress, UserAgent, CorrelationId",
+        "size": 0,
+        "title": "SuspiciousActivityReported",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "user"
+      },
+      "name": "SuspiciousActivityReported"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "let delegatedaccess=\r\n    AuditLogs\r\n    | where OperationName has \"Add delegated permission grant\"\r\n    | extend x = tostring(parse_json(tostring(parse_json(tostring(TargetResources[0].modifiedProperties))[0].newValue)))\r\n    | extend ['Permissions granted'] = split(x, ' ')\r\n    | extend Actor = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n    | extend ['Service Principal ObjectId'] = tostring(TargetResources[1].id)\r\n    | extend Activity = strcat(\"Delegated access added to application\")\r\n    | project\r\n        TimeGenerated,\r\n        Activity,\r\n        ['Permissions granted'],\r\n        ['Service Principal ObjectId'],\r\n        Actor;\r\nlet appaccess=\r\n    AuditLogs\r\n    | where OperationName has \"Add app role assignment to service principal\"\r\n    | extend x = tostring(parse_json(tostring(parse_json(tostring(TargetResources[0].modifiedProperties))[1].newValue)))\r\n    | extend ['Permissions granted'] = split(x, ' ')\r\n    | extend Actor = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n    | extend Activity = strcat(\"Application access added to application\")\r\n    | extend ['Service Principal ObjectId'] = tostring(TargetResources[1].id)\r\n    | project\r\n        TimeGenerated,\r\n        Activity,\r\n        ['Permissions granted'],\r\n        ['Service Principal ObjectId'],\r\n        Actor;\r\nunion delegatedaccess, appaccess",
+        "size": 0,
+        "title": "Application or delegated access Added",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "application"
+      },
+      "name": "Application or delegated access Added"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where TimeGenerated > ago(7d)\r\n| where Category == \"ApplicationManagement\"\r\n| where OperationName == \"Add application\"\r\n| where Result == \"success\"\r\n| extend UserPrincipalName = InitiatedBy.user.userPrincipalName\r\n| extend UserId = tostring(InitiatedBy.user.id)\r\n| extend IPAddress = InitiatedBy.user.ipAddress\r\n| extend AppDisplayName = TargetResources[0].displayName\r\n| extend UserAgent = AdditionalDetails[0].value\r\n| join kind=leftouter ( \r\n    AADUserRiskEvents\r\n    | where TimeGenerated >ago(7d)\r\n    | summarize Risks = make_set(RiskEventType), FirstRisk = min(TimeGenerated), LastRisk = max(TimeGenerated) by UserId\r\n) on UserId\r\n| project TimeGenerated, UserId, IPAddress, AppDisplayName, UserAgent, Risks, FirstRisk, LastRisk\r\n",
+        "size": 0,
+        "title": "Add Application",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "application"
+      },
+      "name": "Add Application"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "    AuditLogs\r\n    | where OperationName has \"Consent to application\"\r\n    | extend\r\n        Actor = tostring(InitiatedBy.user.userPrincipalName),\r\n        ActorId = tostring(InitiatedBy.user.id),\r\n        ActorIPAddress = tostring(InitiatedBy.user.ipAddress)\r\n    | mv-expand TargetResource = TargetResources\r\n    | extend\r\n        AppDisplayName = tostring(TargetResource.displayName),\r\n        AppServicePrincipalId = tostring(TargetResource.id)\r\n    | mv-apply Properties = TargetResource.modifiedProperties on (\r\n        summarize BagToUnpack = make_bag(pack(tostring(Properties.displayName), pack(\"oldValue\", Properties.oldValue, \"newValue\", Properties.newValue)))\r\n        )\r\n    | evaluate bag_unpack(BagToUnpack, columnsConflict='replace_source')\r\n    | extend\r\n        AdminConsent = trim(@'[\\\"\\s]+', tostring(column_ifexists(\"ConsentContext.IsAdminConsent\", dynamic(null)).newValue)),\r\n        OnBehalfOfAllUsers = trim(@'[\\\"\\s]+', tostring(column_ifexists(\"ConsentContext.OnBehalfOfAll\", dynamic(null)).newValue)),\r\n        AppId = extract(@\"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\", 1, trim(@'[\\\"\\s]+', tostring(column_ifexists(\"TargetId.ServicePrincipalNames\", dynamic(null)).newValue))),\r\n        Permissions = extract_all(@\"PrincipalId: ([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?, ResourceId: ([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}), ConsentType:\\s+(\\w+), Scope:\\s+([^,]+)\", extract(@\"\\=\\>\\s+(.*)\", 1, tostring(column_ifexists(\"ConsentAction.Permissions\", \"\"))))\r\n    | mv-apply Permissions on (\r\n        extend\r\n            TargetId = tostring(Permissions[0]),\r\n            PermissionsResourceId = tostring(Permissions[1]),\r\n            ConsentType = tostring(Permissions[2]),\r\n            Scope = split(Permissions[3], ' ')\r\n        | mv-expand Scope\r\n        | summarize Permissions = array_sort_asc(make_set(Scope)) by ConsentType, TargetId, PermissionsResourceId\r\n        )\r\n    | extend Target = iff(TargetId == ActorId, Actor, \"\")\r\n",
+        "size": 0,
+        "title": "Consent to application",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "application"
+      },
+      "name": "Consent to application"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where Category == \"ApplicationManagement\"\r\n| where OperationName == \"Update application – Certificates and secrets management \"\r\n| where Result == \"success\"\r\n| extend UserPrincipalName = InitiatedBy.user.userPrincipalName\r\n| extend IPAddress = InitiatedBy.user.ipAddress\r\n| extend AppDisplayName = TargetResources[0].displayName\r\n| extend UserAgent = AdditionalDetails[0].value\r\n| project TimeGenerated, UserPrincipalName, OperationName, IPAddress, AppDisplayName, UserAgent\r\n",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Update application – Certificates and secrets management",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "application"
+      },
+      "name": "Update application – Certificates and secrets management"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n    | where OperationName == \"Reset password (by admin)\"\r\n    | extend Target = tostring(TargetResources[0].userPrincipalName)\r\n    | where Result == \"success\"",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Password reset",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "user"
+      },
+      "name": "Password reset"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n    | where ResultDescription =~ \"Admin registered temporary access pass method for user\"\r\n    | extend Target = tostring(TargetResources[0].userPrincipalName)\r\n    | where Result == \"success\"",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Temporary Access Password Registration",
+        "timeContextFromParameter": "TimeRange",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "user"
+      },
+      "name": "TAP register"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": " AuditLogs\r\n    | where OperationName in (\"Add eligible member (permanent)\", \"Add eligible member (eligible)\")\r\n    | extend Role = tostring(TargetResources[0].displayName)\r\n    | where Role contains \"admin\"\r\n    | extend AddedBy = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName)\r\n    | extend AddedUser = tostring(TargetResources[2].userPrincipalName)\r\n    | project-reorder TimeGenerated, AddedUser, Role, AddedBy",
+        "size": 0,
+        "title": "User Added to Admin roles",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "role"
+      },
+      "name": "User Added to Admin roles"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName in~ (\"Register device\", \"Unregister device\")",
+        "size": 0,
+        "title": "Device Registration Changes",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "device"
+      },
+      "name": "Device Registration Changes"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where OperationName in (\"Redeem external user invite\", \"Invite external user\")",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Guest user Invite Activity",
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "guest"
+      },
+      "name": "Guest User Invite Activity"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AuditLogs\r\n| where Category == \"UserManagement\"// and OperationName has_any (\"Update user\")\r\n| where TargetResources has_any (\"Guest\", \"#EXT#\")\r\n| mv-expand TargetResource = TargetResources\r\n// | where TargetResource[\"type\"] == \"User\"\r\n| mv-apply modifiedProperty = TargetResource[\"modifiedProperties\"] on (\r\n    summarize modifiedProperties = make_bag(\r\n        bag_pack(tostring(modifiedProperty[\"displayName\"]),\r\n            bag_pack(\"oldValue\", trim(@'[\\\"\\s]+', tostring(modifiedProperty[\"oldValue\"])),\r\n                \"newValue\", trim(@'[\\\"\\s]+', tostring(modifiedProperty[\"newValue\"])))))\r\n    )\r\n| where case(\r\n    isnotempty(modifiedProperties[\"TargetId.UserType\"][\"oldValue\"]) and tostring(modifiedProperties[\"TargetId.UserType\"][\"oldValue\"]) != tostring(modifiedProperties[\"TargetId.UserType\"][\"newValue\"]), true,\r\n    tostring(modifiedProperties[\"UserType\"][\"oldValue\"]) != \"[]\" and tostring(modifiedProperties[\"UserType\"][\"oldValue\"]) != tostring(modifiedProperties[\"UserType\"][\"newValue\"]), true,\r\n    tostring(modifiedProperties[\"UserPrincipalName\"][\"oldValue\"]) != \"[]\" and tostring(modifiedProperties[\"UserPrincipalName\"][\"oldValue\"]) != tostring(modifiedProperties[\"UserPrincipalName\"][\"newValue\"]), true,\r\n    false\r\n)\r\n| extend\r\n    Initiator = iif(isnotempty(InitiatedBy[\"app\"]), tostring(InitiatedBy[\"app\"][\"displayName\"]), tostring(InitiatedBy[\"user\"][\"userPrincipalName\"])),\r\n    InitiatorId = iif(isnotempty(InitiatedBy[\"app\"]), tostring(InitiatedBy[\"app\"][\"servicePrincipalId\"]), tostring(InitiatedBy[\"user\"][\"id\"])),\r\n    IPAddress = tostring(InitiatedBy[tostring(bag_keys(InitiatedBy)[0])][\"ipAddress\"]),\r\n    TargetUserPrincipalName = tostring(TargetResource[\"userPrincipalName\"]),\r\n    TargetId = tostring(TargetResource[\"id\"])\r\n| project\r\n    TimeGenerated,\r\n    Category,\r\n    Identity,\r\n    Initiator,\r\n    IPAddress,\r\n    OperationName,\r\n    Result,\r\n    TargetUserPrincipalName,\r\n    InitiatorId,\r\n    TargetId,\r\n    InitiatedBy,\r\n    AdditionalDetails,\r\n    TargetResources,\r\n    CorrelationId",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Review Modified properties for Guest User",
+        "timeContextFromParameter": "TimeRange",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{Workspace}"
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "wbtab",
+        "comparison": "isEqualTo",
+        "value": "guest"
+      },
+      "name": "Review Modified properties for Guest User"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
