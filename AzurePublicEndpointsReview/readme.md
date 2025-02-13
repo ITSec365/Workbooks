@@ -4,12 +4,18 @@ This workbook uses Azure Resource Graph and Azure Rest API to pull real time dat
 
 This workbook provides filtered view of Azure Resources and Network configurations and is divided to several sections such as:
 
--	**PaaS Services:**  filtered view listing various PaaS Services (Storage Account, Key vault, Event Hub, App Services, Databases) with Public Access Property status     
--	**Network Rules:** filtered View listing Public IPs with assignment status, Network rules configured in various network services like Application Gateway, Front Door, Firewall etc. 
--	**Network Services:** filtered View listing Network services like Bastion Hosts, VNet Gateways, VPN Gateways etc.   
--	**API Connections:** filtered View listing API Connections and Logic App Workflows
--	**Internal Networks:** filtered View listing VNet configurations, Route tables, NSG Rules  
+  
+-	**Network Rules:** filtered View listing Public IPs with assignment status, Network rules configured in various network services like Application Gateway, Front Door, Loadbalancer etc. 
+-	**Network Services:** filtered View listing various Network services like Bastion Hosts, VNet Gateways, VPN Gateways etc.
+-	**Internal Networks:** filtered View listing VNet configurations, Route tables, NSG Rules
 -	**MDC Recommendations:** filtered View listing Public Access related recommendations for VM, PaaS services and Data in transit security recommendations
+-	**APP Services:** filtered View listing resources with Public Access enabled and configurations of App Services    
+-	**API Connections:** filtered View listing API Connections and Logic App Workflows
+-	**Automation Accounts:** filtered View listing automation Accounts and Runbooks
+-	**Modern Apps:** filtered View listing container apps, AKS instances, OpenAI instances etc
+-	**Data Stores:** filtered View listing storage accounts, keyvaults,databases
+-	**Tags:** filtered View listing Tags
+
 
 Please refer to this blog for more details- https://itsec365.wordpress.com/2023/03/03/azure-public-endpoints-review/
 
