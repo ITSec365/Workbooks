@@ -24,8 +24,8 @@ Please refer to this blog for more details- https://itsec365.wordpress.com/2023/
 To deploy the new workbook into your Microsoft Defender for Cloud console, click on *Deploy to Azure* for Azure Public cloud or *Deploy to Azure Gov* for government cloud.
 During the deployment, you must select a subscription and resource group to store the workbook. 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePublicEndpointsReview%2FAzurePublicEndpointsReview.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePublicEndpointsReview%2FAzurePublicEndpointsReview.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePublicEndpointsReview%2FAzurePublicEndpointsReviewv1.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePublicEndpointsReview%2FAzurePublicEndpointsReviewv1.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
 ![Workbook demo](./pepreview.GIF)
