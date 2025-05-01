@@ -32,7 +32,7 @@ During the deployment, you must select a subscription and resource group to stor
 <a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzureThreatResearchMatrixWorkbook%2FAzureThreatResearchMatrixWorkbook.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
-![Workbook demo](./Activity.GIF)
+![Workbook demo](./AzureThreatResearchMatrixBlack.PNG)
 
 #### Change Log 
 
