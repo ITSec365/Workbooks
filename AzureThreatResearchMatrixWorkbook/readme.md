@@ -8,19 +8,18 @@ Note a brief information is provided on top of each table for specific attack sc
 
 This workbook provides filtered view of related log events from Azure Activity Logs and Entra ID Audit Logs for various attack scenarios as given below. Note most of these activities will be performed by IT Administrators. You need to review who is doing  this activity and from which IP address to identify any suspicious activities.  
 
--	**Overall:**  filtered view of administrative activities performed by various callers   
--	**Compute:** filtered View of Activity Log events to detect following attack scenarios 
-Deploying malicious VM Extension, Deploying malicious Gallery Application,  Abusing VM Run commands , VM Local admin password reset, Exporting VM Disk using SAS URI , VM Disk snapshot, VM Serial Console Access,  AKS Cluster Command Invoke, VM Public IP assignments 
--	**Network:** filtered View of Activity Log events to detect tampering network configuration like NSG Rule changes, Azure DNS changes, Network port changes  
--	**Policy:** filtered View of Activity Log events to detect tampering Azure Policy for persistence , Resource lock changes, Resource deployments denied by Azure Policy and deployments performed by Azure Policy 
--	**Security:** filtered View of Activity Log events to detect tampering sentinel or log collection settings like  Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes
--	**Data:** filtered View of Activity Log events to detect data exfiltration or data sabotage attacks related to Azure SQL changes, storage account changes, Key Vault changes 
--	**Subscription:** filtered View of Activity Log events related to Privilege Escalation (Azure RBAC and cloud shell) , Subscription hijacking, Adding new subscription or management group changes.   
--	**Application:** filtered View of Activity Log events to detect triggering App Services , Logic Apps or automation accounts using HTTP triggers or webhooks  
--	**External Access:** filtered View of Activity Log events to monitor suspicious External user activities using Azure Light House or Guest Accounts. 
--	**Identity:** filtered View of Entra ID Audit Log events to detect Consent to Malicious Application , Privileged Role Activation,Using RBAC Elevate Access, Update Permission to Application, Update Certificates or Secrets to Application, Modify Security Info(MFA Methods), Abusing TAP, Tamper Conditional Access Policy, Modify User properties to join dynamic groups, Add accounts or Service principal, Add Rogue Device  
-
- 
+|Tab|Description|
+|---|---|
+|Overall:| filtered view of administrative activities performed by various callers|
+|Compute:| covers Deploying malicious VM Extension, Deploying malicious Gallery Application,  Abusing VM Run commands , VM Local admin password reset, Exporting VM Disk using SAS URI , VM Disk snapshot, VM Serial Console Access,  AKS Cluster Command Invoke, VM Public IP assignments |
+|Network:| covers network configuration tampering like NSG Rule changes, Azure DNS changes, Network port changes |
+|Policy:| covers Azure Policy modification for persistence , Resource lock changes, Resource deployments denied by Azure Policy and deployments performed by Azure Policy|
+|Security:| covers tampering sentinel or log collection settings like  Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes|
+|Data:| covers detect data exfiltration or data sabotage attacks related to Azure SQL changes, storage account changes, Key Vault changes|
+|Subscription:| covers Privilege Escalation (Azure RBAC and cloud shell) , Subscription hijacking, Adding new subscription or management group changes|
+|Application:| covers remote triggering App Services , Logic Apps or automation accounts using HTTP triggers or webhooks and resource level changes|
+|External Access:| covers suspicious External user activities using Azure Light House or Guest Accounts|
+|Identity:| filtered View of Entra ID Audit Log events to detect Consent to Malicious Application , Privileged Role Activation,Using RBAC Elevate Access, Update Permission to Application, Update Certificates or Secrets to Application, Modify Security Info(MFA Methods), Abusing TAP, Tamper Conditional Access Policy, Modify User properties to join dynamic groups, Add accounts or Service principal, Add Rogue Device |
 
 
 ## Try it on the Azure Portal
@@ -32,7 +31,7 @@ During the deployment, you must select a subscription and resource group to stor
 <a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzureThreatResearchMatrixWorkbook%2FAzureThreatResearchMatrixWorkbook.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
-![Workbook demo](./AzureThreatResearchMatrixBlack.PNG)
+![Workbook demo](AzureThreatResearchMatrixBlack.PNG)
 
 #### Change Log 
 
