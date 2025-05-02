@@ -8,18 +8,18 @@ Note a brief information is provided on top of each table for specific attack sc
 
 This workbook provides filtered view of related log events from Azure Activity Logs and Entra ID Audit Logs for various attack scenarios as given below. Note most of these activities will be performed by IT Administrators. You need to review who is doing  this activity and from which IP address to identify any suspicious activities.  
 
-|Tab|Description|
+|Tab|Attac vectors covered |
 |---|---|
 |Overall:| filtered view of administrative activities performed by various callers|
-|Compute:| covers Deploying malicious VM Extension, Deploying malicious Gallery Application,  Abusing VM Run commands , VM Local admin password reset, Exporting VM Disk using SAS URI , VM Disk snapshot, VM Serial Console Access,  AKS Cluster Command Invoke, VM Public IP assignments |
-|Network:| covers network configuration tampering like NSG Rule changes, Azure DNS changes, Network port changes |
-|Policy:| covers Azure Policy modification for persistence , Resource lock changes, Resource deployments denied by Azure Policy and deployments performed by Azure Policy|
-|Security:| covers tampering sentinel or log collection settings like  Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes|
-|Data:| covers detect data exfiltration or data sabotage attacks related to Azure SQL changes, storage account changes, Key Vault changes|
-|Subscription:| covers Privilege Escalation (Azure RBAC and cloud shell) , Subscription hijacking, Adding new subscription or management group changes|
-|Application:| covers remote triggering App Services , Logic Apps or automation accounts using HTTP triggers or webhooks and resource level changes|
-|External Access:| covers suspicious External user activities using Azure Light House or Guest Accounts|
-|Identity:| filtered View of Entra ID Audit Log events to detect Consent to Malicious Application , Privileged Role Activation,Using RBAC Elevate Access, Update Permission to Application, Update Certificates or Secrets to Application, Modify Security Info(MFA Methods), Abusing TAP, Tamper Conditional Access Policy, Modify User properties to join dynamic groups, Add accounts or Service principal, Add Rogue Device |
+|Compute:|  Deploying malicious VM Extension, Deploying malicious Gallery Application,  Abusing VM Run commands , VM Local admin password reset, Exporting VM Disk using SAS URI , VM Disk snapshot, VM Serial Console Access,  AKS Cluster Command Invoke, VM Public IP assignments |
+|Network:| Network configuration tampering like NSG Rule changes, Azure DNS changes, Network port changes |
+|Policy:|  Azure Policy modification for persistence , Resource lock changes, Resource deployments denied by Azure Policy and deployments performed by Azure Policy|
+|Security:| Tampering sentinel or log collection settings like  Sentinel Analytic Rule changes, Data connector changes, workbook changes, Log alert changes, Diagnostic setting changes|
+|Data:| Data exfiltration or data sabotage attacks related to Azure SQL changes, storage account changes, Key Vault changes|
+|Subscription:| Privilege Escalation (Azure RBAC and cloud shell) , Subscription hijacking, Adding new subscription or management group changes|
+|Application:| Remote triggering App Services , Logic Apps or automation accounts using HTTP triggers or webhooks and resource level changes|
+|External Access:| Suspicious External user activities using Azure Light House or Guest Accounts|
+|Identity:| Consent to Malicious Application , Privileged Role Activation,Using RBAC Elevate Access, Update Permission to Application, Update Certificates or Secrets to Application, Modify Security Info(MFA Methods), Abusing TAP, Tamper Conditional Access Policy, Modify User properties to join dynamic groups, Add accounts or Service principal, Add Rogue Device |
 
 
 ## Try it on the Azure Portal
