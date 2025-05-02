@@ -8,7 +8,7 @@ Note a brief information is provided on top of each table for specific attack sc
 
 This workbook provides filtered view of related log events from Azure Activity Logs and Entra ID Audit Logs for various attack scenarios as given below. Note most of these activities will be performed by IT Administrators. You need to review who is doing  this activity and from which IP address to identify any suspicious activities.  
 
-|Tab|Attac vectors covered |
+|Tab|Attack vectors covered |
 |---|---|
 |Overall:| filtered view of administrative activities performed by various callers|
 |Compute:|  Deploying malicious VM Extension, Deploying malicious Gallery Application,  Abusing VM Run commands , VM Local admin password reset, Exporting VM Disk using SAS URI , VM Disk snapshot, VM Serial Console Access,  AKS Cluster Command Invoke, VM Public IP assignments |
@@ -31,7 +31,7 @@ During the deployment, you must select a subscription and resource group to stor
 <a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzureThreatResearchMatrixWorkbook%2FAzureThreatResearchMatrixWorkbook.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
-![Workbook demo](AzureThreatResearchMatrixBlack.PNG)
+![Workbook demo](./identity.GIF)
 
 #### Change Log 
 
