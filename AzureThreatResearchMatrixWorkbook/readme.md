@@ -32,6 +32,7 @@ During the deployment, you must select a subscription and resource group to stor
 
 ### Demo
 ![Workbook demo](./identity.GIF)
+![Workbook demo](./part3.GIF)
 
 #### Change Log 
 
