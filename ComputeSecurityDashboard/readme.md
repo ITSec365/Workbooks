@@ -23,8 +23,8 @@ Informational options: using the action bars at the top section, select FAQ butt
 To deploy the new workbook into your Microsoft Defender for Cloud console, click on *Deploy to Azure* for Azure Public cloud or *Deploy to Azure Gov* for government cloud.
 During the deployment, you must select a subscription and resource group to store the report. 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FComputeSecurityDashboard%2FComputeSecurityDashboardv5.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FComputeSecurityDashboard%2FComputeSecurityDashboardv5.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FComputeSecurityDashboard%2FComputeSecurityDashboardv5.1.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FComputeSecurityDashboard%2FComputeSecurityDashboardv5.1.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 ### Demo
 ![Dashboard demo](./compsec.GIF)
@@ -38,6 +38,7 @@ During the deployment, you must select a subscription and resource group to stor
 |June-6-2023| Added Azure Arc inventory, Service Principals and backup details  | 
 |July-31-2023| Added Encryption, Resource Changes and Subscription RBAC  |
 |October-11-2023| Added Network section  |
+|June-10-2025| Added VM Image details in VM Inventory  |
 
 ### Upcoming changes
 
