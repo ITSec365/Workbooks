@@ -1,0 +1,655 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## MDC Regulatory Compliance Dashboard\r\nPlease select the required subscription and the Compliance Standard to view the Complaince State "
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "85b6b970-54e9-4571-afc2-4aa92ae4b7df",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "includeAll": true,
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": [
+              "/subscriptions/6a4a05ab-b437-4ffc-bd51-071ce1f8686f"
+            ]
+          },
+          {
+            "id": "f4e36130-b508-4959-9cfa-a7ed59e985a6",
+            "version": "KqlParameterItem/1.0",
+            "name": "ComplianceStandard",
+            "type": 2,
+            "isRequired": true,
+            "query": "securityresources\r\n    | where type == \"microsoft.security/regulatorycompliancestandards/regulatorycompliancecontrols/regulatorycomplianceassessments\" \r\n     | parse id with * \"regulatoryComplianceStandards/\" complianceStandardId \"/regulatoryComplianceControls/\" complianceControlId \"/regulatoryComplianceAssessments\" *\r\n    | extend complianceStandardId = replace( \"-\", \" \", complianceStandardId)\r\n    | summarize by complianceStandardId\r\n    ",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": []
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": "FedRAMP H"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "name": "parameters - 1"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "5bcf81cf-1729-4d78-a415-27c525a7f76f",
+            "cellValue": "tab",
+            "linkTarget": "parameter",
+            "linkLabel": "Compliance State",
+            "subTarget": "compliance",
+            "style": "link"
+          },
+          {
+            "id": "660231e8-f887-4ee9-91be-f672db13791e",
+            "cellValue": "tab",
+            "linkTarget": "parameter",
+            "linkLabel": "Defender Plan Coverage",
+            "subTarget": "coverage",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 4"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "securityresources\r\n    | where type == \"microsoft.security/regulatorycompliancestandards/regulatorycompliancecontrols/regulatorycomplianceassessments\" | extend scope = properties.scope\r\n     | where isempty(scope) or  scope in~(\"Subscription\", \"MultiCloudAggregation\")\r\n    | parse id with * \"regulatoryComplianceStandards/\" complianceStandardId \"/regulatoryComplianceControls/\" complianceControlId \"/regulatoryComplianceAssessments\" *\r\n    | extend complianceStandardId = replace( \"-\", \" \", complianceStandardId)\r\n    | where complianceStandardId ==  \"{ComplianceStandard}\"\r\n    | extend RecommendationName = tostring(properties.description)\r\n    | extend failedResources = toint(properties.failedResources), passedResources = toint(properties.passedResources),skippedResources = toint(properties.skippedResources)\r\n    | where failedResources + passedResources + skippedResources > 0 or properties.assessmentType == \"MicrosoftManaged\"\r\n    | extend Link= properties.assessmentDetailsLink\r\n    | extend OverallState= properties.state\r\n    | summarize count() by  complianceStandardId, subscriptionId, tostring( OverallState)",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Summary for the Selected Subscription and Compliance Standard",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "subscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true,
+                "customColumnWidthSetting": "50ch"
+              }
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "subscriptionId",
+              "label": "Subscription Name"
+            },
+            {
+              "columnId": "count_",
+              "label": "Number of Recommendations"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tab",
+        "comparison": "isEqualTo",
+        "value": "compliance"
+      },
+      "name": "query - 0 - Copy"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "securityresources\r\n    | where type == \"microsoft.security/regulatorycompliancestandards/regulatorycompliancecontrols/regulatorycomplianceassessments\" | extend scope = properties.scope\r\n     | where isempty(scope) or  scope in~(\"Subscription\", \"MultiCloudAggregation\")\r\n    | parse id with * \"regulatoryComplianceStandards/\" complianceStandardId \"/regulatoryComplianceControls/\" complianceControlId \"/regulatoryComplianceAssessments\" *\r\n    | extend complianceStandardId = replace( \"-\", \" \", complianceStandardId)\r\n    | where complianceStandardId ==  \"{ComplianceStandard}\"\r\n    | extend RecommendationName = tostring(properties.description)\r\n    | extend failedResources = toint(properties.failedResources), passedResources = toint(properties.passedResources),skippedResources = toint(properties.skippedResources)\r\n    | where failedResources + passedResources + skippedResources > 0 or properties.assessmentType == \"MicrosoftManaged\"\r\n    | extend Link= properties.assessmentDetailsLink\r\n    | extend OverallState= properties.state\r\n    | project complianceStandardId, subscriptionId, RecommendationName, passedResources, failedResources, skippedResources, OverallState, Link",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Recommendation Level Compliance Details for the Selected Subscription and Compliance Standard",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "subscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true,
+                "customColumnWidthSetting": "50ch"
+              }
+            },
+            {
+              "columnMatch": "Link",
+              "formatter": 7,
+              "formatOptions": {
+                "linkTarget": "Url"
+              }
+            }
+          ],
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "subscriptionId",
+              "label": "Subscription Name"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tab",
+        "comparison": "isEqualTo",
+        "value": "compliance"
+      },
+      "name": "query - 0 - Copy - Copy"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "// Regulatory compliance CSV report query for standard \"Microsoft cloud security benchmark\" \r\n// Change the 'complianceStandardId' column condition to select a different standard\r\n    securityresources\r\n    | where type == \"microsoft.security/regulatorycompliancestandards/regulatorycompliancecontrols/regulatorycomplianceassessments\" | extend scope = properties.scope\r\n     //| where isempty(scope) or  scope in~(\"Subscription\", \"MultiCloudAggregation\")\r\n       | parse id with * \"regulatoryComplianceStandards/\" complianceStandardId \"/regulatoryComplianceControls/\" complianceControlId \"/regulatoryComplianceAssessments\" *\r\n    | extend complianceStandardId = replace( \"-\", \" \", complianceStandardId)\r\n    | where complianceStandardId == \"{ComplianceStandard}\"\r\n    | extend failedResources = toint(properties.failedResources), passedResources = toint(properties.passedResources),skippedResources = toint(properties.skippedResources)\r\n    | where failedResources + passedResources + skippedResources > 0 or properties.assessmentType == \"MicrosoftManaged\"\r\n    | join kind = leftouter(\r\n    securityresources\r\n    | where type == \"microsoft.security/assessments\") on subscriptionId, name | extend scope = properties.scope\r\n     | where isempty(scope) or  scope in~(\"Subscription\", \"MultiCloudAggregation\")\r\n    | extend complianceState = tostring(properties.state)\r\n    | extend resourceSource = tolower(tostring(properties1.resourceDetails.Source))\r\n    | extend recommendationId = iff(isnull(id1) or isempty(id1), id, id1)\r\n    | extend resourceId = trim(' ', tolower(tostring(case(resourceSource =~ 'azure', properties1.resourceDetails.Id,\r\n                                                        resourceSource =~ 'gcp', properties1.resourceDetails.GcpResourceId,\r\n                                                        resourceSource =~ 'aws' and isnotempty(tostring(properties1.resourceDetails.ConnectorId)), properties1.resourceDetails.Id,\r\n                                                        resourceSource =~ 'aws', properties1.resourceDetails.AwsResourceId,\r\n                                                        extract('^(.+)/providers/Microsoft.Security/assessments/.+$',1,recommendationId)))))\r\n    | extend regexResourceId = extract_all(@\"/providers/[^/]+(?:/([^/]+)/[^/]+(?:/[^/]+/[^/]+)?)?/([^/]+)/([^/]+)$\", resourceId)[0]\r\n    | extend resourceType = iff(resourceSource =~ \"aws\" and isnotempty(tostring(properties1.resourceDetails.ConnectorId)), tostring(properties1.additionalData.ResourceType), iff(regexResourceId[1] != \"\", regexResourceId[1], iff(regexResourceId[0] != \"\", regexResourceId[0], \"subscriptions\")))\r\n    | extend resourceName = tostring(regexResourceId[2])\r\n    | extend recommendationName = name\r\n    | extend recommendationDisplayName = tostring(iff(isnull(properties1.displayName) or isempty(properties1.displayName), properties.description, properties1.displayName))\r\n    | extend description = tostring(properties1.metadata.description)\r\n    | extend remediationSteps = tostring(properties1.metadata.remediationDescription)\r\n    | extend severity = tostring(properties1.metadata.severity)\r\n    | extend azurePortalRecommendationLink = tostring(properties1.links.azurePortal) | mvexpand statusPerInitiative = properties1.statusPerInitiative\r\n                | extend expectedInitiative = statusPerInitiative.policyInitiativeName =~ \"ASC Default\"\r\n                | summarize arg_max(expectedInitiative, *) by complianceControlId, recommendationId\r\n                | extend state = iff(expectedInitiative, tolower(statusPerInitiative.assessmentStatus.code), tolower(properties1.status.code))\r\n                | extend notApplicableReason = iff(expectedInitiative, tostring(statusPerInitiative.assessmentStatus.cause), tostring(properties1.status.cause))\r\n                | project-away expectedInitiative \r\n    | project complianceStandardId, complianceControlId, complianceState, subscriptionId, resourceGroup = resourceGroup1 ,resourceType, resourceName, resourceId, recommendationId, recommendationName, recommendationDisplayName, description, remediationSteps, severity, state, notApplicableReason, azurePortalRecommendationLink| join kind = leftouter (securityresources\r\n    | where type == \"microsoft.security/regulatorycompliancestandards/regulatorycompliancecontrols\"\r\n    | parse id with * \"regulatoryComplianceStandards/\" complianceStandardId \"/regulatoryComplianceControls/\" *\r\n    | extend complianceStandardId = replace( \"-\", \" \", complianceStandardId)\r\n    | where complianceStandardId == \"Microsoft cloud security benchmark\"\r\n    | where properties.state != \"Unsupported\"\r\n    | extend controlName = tostring(properties.description)\r\n    | project controlId = name, controlName\r\n    | distinct controlId, controlName) on $right.controlId == $left.complianceControlId\r\n            | project-away controlId\r\n            | distinct *\r\n            | order by complianceControlId asc, recommendationId asc",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Resource Level Compliance Details for the Selected Subscription and Compliance Standard",
+        "showRefreshButton": true,
+        "showExportToExcel": true,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "subscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true,
+                "customColumnWidthSetting": "50ch"
+              }
+            },
+            {
+              "columnMatch": "azurePortalRecommendationLink",
+              "formatter": 7,
+              "formatOptions": {
+                "linkTarget": "Url"
+              }
+            }
+          ],
+          "filter": true,
+          "labelSettings": [
+            {
+              "columnId": "subscriptionId",
+              "label": "Subscription Name"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tab",
+        "comparison": "isEqualTo",
+        "value": "compliance"
+      },
+      "name": "query - 0"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "securityresources\r\n| where type =~ \"microsoft.security/pricings\"\r\n| extend pricingTier = properties.pricingTier, subPlan = properties.subPlan\r\n| extend planSet = pack(name, level = case(isnotempty(subPlan),subPlan,pricingTier))\r\n| summarize defenderPlans = make_bag(planSet) by subscriptionId\r\n| project subscriptionId,\r\n    CloudPosture = defenderPlans.CloudPosture,\r\n    VirtualMachines = defenderPlans.VirtualMachines,\r\n    AppServices = defenderPlans.AppServices,\r\n    SqlServers = defenderPlans.SqlServers,\r\n    SqlServerVirtualMachines = defenderPlans.SqlServerVirtualMachines,\r\n    OpenSourceRelationalDatabases = defenderPlans.OpenSourceRelationalDatabases,\r\n    CosmosDB = defenderPlans.CosmosDbs,\r\n    StorageAccounts = defenderPlans.StorageAccounts,\r\n    Containers = defenderPlans.Containers,\r\n    KeyVaults = defenderPlans.KeyVaults,\r\n    Arm = defenderPlans.Arm,\r\n    API = defenderPlans.Api, \r\n    AI= defenderPlans.AI\r\n   ",
+        "size": 0,
+        "title": "Defender Plan Coverage for the Selected Subscription",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "subscriptionId",
+              "formatter": 15,
+              "formatOptions": {
+                "linkTarget": "Resource",
+                "showIcon": true,
+                "customColumnWidthSetting": "50ch"
+              }
+            },
+            {
+              "columnMatch": "CloudPosture",
+              "formatter": 18,
+              "formatOptions": {
+                "linkTarget": "OpenBlade",
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orangeDark",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "VirtualMachines",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P1",
+                    "representation": "green",
+                    "text": "Plan 1 on"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P2",
+                    "representation": "greenDark",
+                    "text": "Plan 2 on"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ]
+              }
+            },
+            {
+              "columnMatch": "AppServices",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "SqlServers",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "SqlServerVirtualMachines",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "OpenSourceRelationalDatabases",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "CosmosDB",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "StorageAccounts",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "DefenderForStorageV2",
+                    "representation": "green",
+                    "text": "on (Defender for Storage V2)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "PerTransaction",
+                    "representation": "greenDark",
+                    "text": "on (per transaction)"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "Containers",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "KeyVaults",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "PerKeyVault",
+                    "representation": "greenDark",
+                    "text": "on (per resource)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "PerTransaction",
+                    "representation": "green",
+                    "text": "on (per transaction)"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "Arm",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "PerSubscription",
+                    "representation": "greenDark",
+                    "text": "On (per subscription)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "PerApiCall",
+                    "representation": "green",
+                    "text": "On (per API call)"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ],
+                "customColumnWidthSetting": "20ch"
+              }
+            },
+            {
+              "columnMatch": "API",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P1",
+                    "representation": "green",
+                    "text": "On(Plan 1)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P2",
+                    "representation": "green",
+                    "text": "On(Plan 2)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P3",
+                    "representation": "green",
+                    "text": "On(Plan 3)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P4",
+                    "representation": "green",
+                    "text": "On (Plan 4)"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "P5",
+                    "representation": "green",
+                    "text": "On(Plan 5)"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ]
+              }
+            },
+            {
+              "columnMatch": "AI",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "colors",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "Standard",
+                    "representation": "green",
+                    "text": "On"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "orange",
+                    "text": "Off"
+                  }
+                ]
+              }
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "subscriptionId",
+              "label": "Subscription Name"
+            },
+            {
+              "columnId": "CloudPosture",
+              "label": "Defender CSPM"
+            },
+            {
+              "columnId": "VirtualMachines",
+              "label": "Servers"
+            },
+            {
+              "columnId": "AppServices",
+              "label": "App Services"
+            },
+            {
+              "columnId": "SqlServers",
+              "label": "SQL"
+            },
+            {
+              "columnId": "SqlServerVirtualMachines",
+              "label": "SQL Server on machines"
+            },
+            {
+              "columnId": "OpenSourceRelationalDatabases",
+              "label": "Open-source relational DBs"
+            },
+            {
+              "columnId": "CosmosDB",
+              "label": "Cosmos DB"
+            },
+            {
+              "columnId": "StorageAccounts",
+              "label": "Storage"
+            },
+            {
+              "columnId": "Containers",
+              "label": "Containers"
+            },
+            {
+              "columnId": "KeyVaults",
+              "label": "KeyVaults"
+            },
+            {
+              "columnId": "Arm",
+              "label": "Resource Manager"
+            }
+          ]
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "tab",
+        "comparison": "isEqualTo",
+        "value": "coverage"
+      },
+      "name": "query - 3"
+    }
+  ],
+  "fallbackResourceIds": [
+    "azure monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
