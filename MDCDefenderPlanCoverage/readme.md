@@ -11,8 +11,8 @@ You can check the status for the required subscription or All subscriptions. You
 To deploy the new workbook into your Microsoft Defender for Cloud console, click on *Deploy to Azure* for Azure Public cloud or *Deploy to Azure Gov* for government cloud.
 During the deployment, you must select a subscription and resource group to store the report. 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FMDCRegulatoryComplianceDashboard%2FMDCDashboard.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FMDCRegulatoryComplianceDashboard%2FMDCDashboard.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FMDCDefenderPlanCoverage%2FMDCDefenderPlanCoverage.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FMDCDefenderPlanCoverage%2FMDCDefenderPlanCoverage.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 
 
