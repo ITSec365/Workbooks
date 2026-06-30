@@ -1,4 +1,4 @@
-#MDC Defender Plan Coverage Dashboard
+# MDC Defender Plan Coverage Dashboard
 
 MDC Defender Plan Coverage Dashboard workbook assists in validating the status of various Defender (Cloud Workload Protection)Plans like Defender for Storage, Defender for Server etc . 
 
