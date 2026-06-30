@@ -1,8 +1,11 @@
 # MDC Regulatory Compliance Dashboard
 
-MDC Regulatory Compliance Dashboard workbook assists in pulling the compliance state for the specific Compliance Standard. 
+MDC Regulatory Compliance Dashboard workbook assists in pulling the compliance state for the specific Regulatory Compliance Standard. 
 
-It also provides the coverage of the Defender Plans. You can check which Defender Plans are turned on  in your subscriptions.  
+You can select the speciifc subscription and the required compliance standard from the top parametrs section. 
+
+You can also download the results to csv file by clicking the ellipsis at the top right corner of the table.
+  
 
 
 
