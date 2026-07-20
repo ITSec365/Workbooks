@@ -17,8 +17,8 @@ Our newly dashboard is based on Azure Resource Graph (ARG) queries and divided t
 To deploy the new workbook into your Microsoft Defender for Cloud console, click on *Deploy to Azure* for Azure Public cloud or *Deploy to Azure Gov* for government cloud.
 During the deployment, you must select a subscription and resource group to store the report. 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePolicyDashboard%2FAzurePolicyDashboardv1.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
-<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePolicyDashboard%2FAzurePolicyDashboardv1.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePolicyDashboard%2FAzurePolicyDashboardv2.json" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a>
+<a href="https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FITSec365%2FWorkbooks%2Fmain%2FAzurePolicyDashboard%2FAzurePolicyDashboardv2.json" target="_blank"><img src="https://aka.ms/deploytoazuregovbutton"/></a>
 
 
 
